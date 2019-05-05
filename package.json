@@ -1,0 +1,7 @@
+{
+  "name": "wasi_unstable",
+  "version": "0.0.1",
+  "description": "Experimental ESM integration for WASI",
+  "main": "index.js",
+  "type": "module"
+}
