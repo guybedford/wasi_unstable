@@ -1,16 +1,68 @@
 import WASI from 'wasi';
+import process from 'process';
 
-const wasi = new WASI({});
+const WASI_ESUCCESS = 0;
 
-export function run (wasiModule) {
+const wasi = new WASI({
+  env: process.env,
+  args: process.argv.slice(1)
+});
+
+export function run (wasiModule, { env, args, preopenDirectories } = {}) {
+  if (env) _env = env;
+  if (args) _args = args;
+  if (preopenDirectories) {
+    throw new Error('preopenDirectories option not yet supported.');
+  }
   wasi.setMemory(wasiModule.memory);
   wasiModule._start();
 }
 
-export const args_get = wasi.exports.args_get;
-export const args_sizes_get = wasi.exports.args_sizes_get;
-export const environ_get = wasi.exports.environ_get;
-export const environ_sizes_get = wasi.exports.environ_sizes_get;
+let _args = process.argv.slice(1), _env = process.env;
+
+export function args_get (argv, argvBuf) {
+  wasi.refreshMemory();
+  let coffset = argv;
+  let offset = argvBuf;
+  _args.forEach((a) => {
+    wasi.view.setUint32(coffset, offset, true);
+    coffset += 4;
+    offset += Buffer.from(wasi.memory.buffer).write(`${a}\0`, offset);
+  });
+  return WASI_ESUCCESS;
+}
+export function args_sizes_get (argc, argvBufSize) {
+  wasi.refreshMemory();
+  wasi.view.setUint32(argc, _args.length, true);
+  const size = _args.reduce((acc, a) => acc + Buffer.byteLength(a), 0);
+  wasi.view.setUint32(argvBufSize, size, true);
+  return WASI_ESUCCESS;
+}
+
+export function environ_get (environ, environBuf) {
+  wasi.refreshMemory();
+  let coffset = environ;
+  let offset = environBuf;
+  const envProcessed = Object.entries(_env)
+    .map(([key, value]) => `${key}=${value}`);
+  envProcessed.forEach((e) => {
+    wasi.view.setUint32(coffset, offset, true);
+    coffset += 4;
+    offset += Buffer.from(wasi.memory.buffer).write(e, offset);
+  });
+  return WASI_ESUCCESS;
+}
+
+export function environ_sizes_get (environCount, environBufSize) {
+  wasi.refreshMemory();
+  const envProcessed = Object.entries(_env)
+    .map(([key, value]) => `${key}=${value}`);
+  const size = envProcessed.reduce((acc, e) => acc + Buffer.byteLength(e), 0);
+  wasi.view.setUint32(environCount, envProcessed.length, true);
+  wasi.view.setUint32(environBufSize, size, true);
+  return WASI_ESUCCESS;
+}
+
 export const clock_res_get = wasi.exports.clock_res_get;
 export const clock_time_get = wasi.exports.clock_time_get;
 export const fd_advise = wasi.exports.fd_advise;
