@@ -18,7 +18,7 @@ import { run } from 'wasi_unstable';
 run(M, {
   // defaults:
   env: process.env,
-  argv: process.argv.slice(1)
+  args: process.argv.slice(1)
 });
 ```
 
