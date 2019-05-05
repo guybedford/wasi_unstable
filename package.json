@@ -1,14 +1,32 @@
 {
   "name": "wasi_unstable",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Experimental ESM integration for WASI",
   "main": "index.js",
   "type": "module",
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "devDependencies": {
     "wasi": "0.0.2"
   },
   "scripts": {
     "test": "../node/node --experimental-modules --experimental-wasm-modules test.js"
-  }
+  },
+  "dependencies": {
+    "wasi_unstable": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guybedford/wasi_unstable.git"
+  },
+  "keywords": [
+    "WebAssembly",
+    "WASI"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guybedford/wasi_unstable/issues"
+  },
+  "homepage": "https://github.com/guybedford/wasi_unstable#readme"
 }
