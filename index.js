@@ -3,10 +3,7 @@ import process from 'process';
 
 const WASI_ESUCCESS = 0;
 
-const wasi = new WASI({
-  env: process.env,
-  args: process.argv.slice(1)
-});
+const wasi = new WASI();
 
 export function run (wasiModule, { env, args, preopenDirectories } = {}) {
   if (env) _env = env;
