@@ -15,7 +15,11 @@ main.js
 import * as M from './wasi-file.wasm';
 import { run } from 'wasi_unstable';
 
-run(M, { ...options... });
+run(M, {
+  // defaults:
+  env: process.env,
+  argv: process.argv.slice(1)
+});
 ```
 
 Executed with:
