@@ -4,8 +4,6 @@ _Wraps https://npmjs.org/package/wasi, created by @devsnek, in an ESM integratio
 
 ### Proposed ES Module Integration Usage
 
-**Note: `--experimental-wasm-modules` has not yet landed in any Node.js release, so this example only works against the PR at https://github.com/nodejs/ecmascript-modules/pull/46**
-
 ```
 npm install wasi_unstable
 ```
