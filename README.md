@@ -8,7 +8,7 @@ _Wraps https://npmjs.org/package/wasi, created by @devsnek, in an ESM integratio
 npm install wasi_unstable
 ```
 
-main.js
+main.mjs
 ```js
 import * as M from './wasi-file.wasm';
 import { run } from 'wasi_unstable';
@@ -23,5 +23,5 @@ run(M, {
 Executed with:
 
 ```
-node --experimental-modules --experimental-wasm-modules main.js
+node --experimental-modules --experimental-wasm-modules main.mjs
 ```
