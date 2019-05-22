@@ -7,14 +7,11 @@
   "files": [
     "index.js"
   ],
-  "devDependencies": {
-    "wasi": "0.0.2"
-  },
   "scripts": {
-    "test": "../node/node --experimental-modules --experimental-wasm-modules test.js"
+    "test": "node --experimental-modules --experimental-wasm-modules test.js"
   },
   "dependencies": {
-    "wasi_unstable": "^0.1.0"
+    "wasi": "0.0.3"
   },
   "repository": {
     "type": "git",
